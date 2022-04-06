@@ -11,12 +11,16 @@ def recognize(image):
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = classifier.detectMultiScale(gray, 1.3, 5)
+    print(faces)
+
+    if len(faces) == 0:
+        return -2
 
     for (x, y, w, h) in faces:
 
         _id, confidence = recognizer.predict(gray[y:y + h, x:x + w])
         print("this is confidence ", _id, confidence)
-        if confidence < 100:
+        if confidence < 70:
             confidence = "  {0}%".format(round(100 - confidence))
             print(confidence)
             return _id
